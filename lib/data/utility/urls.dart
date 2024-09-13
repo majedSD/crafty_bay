@@ -15,4 +15,6 @@ class Urls{
   static String listProductByRemark(String remark)=>'$_baseUrl/ListProductByRemark/$remark';
   static String productDetailsById(int id)=>'$_baseUrl/ProductDetailsById/$id';
   static String deleteCartList(int id)=>'$_baseUrl/DeleteCartList/$id';
+  static String invoiceCreate='$_baseUrl/InvoiceCreate';
+  static String reviewList(int id)=>'$_baseUrl/ListReviewByProduct/$id';
 }

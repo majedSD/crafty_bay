@@ -1,18 +1,18 @@
+import 'package:crafty_bay/presentation/state_holders/creat_review_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/reviews_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreatReviewScreen extends StatefulWidget {
-  const CreatReviewScreen({super.key});
-
+  CreatReviewScreen({super.key, required this.id});
+  int id;
   @override
   State<CreatReviewScreen> createState() => _CreatReviewScreenState();
 }
 
 class _CreatReviewScreenState extends State<CreatReviewScreen> {
-  TextEditingController firstNameTEController = TextEditingController();
-  TextEditingController lastNameTEController = TextEditingController();
-  TextEditingController reviewTEController = TextEditingController();
+  TextEditingController ratingTEController = TextEditingController();
+  TextEditingController descriptionTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -43,9 +43,9 @@ class _CreatReviewScreenState extends State<CreatReviewScreen> {
                   height: 24,
                 ),
                 TextFormField(
-                  controller: firstNameTEController,
+                  controller: ratingTEController,
                   decoration: const InputDecoration(
-                    hintText: 'First Name',
+                    hintText: 'Rating',
                   ),
                   textInputAction: TextInputAction.next,
                   validator: Validator,
@@ -54,20 +54,9 @@ class _CreatReviewScreenState extends State<CreatReviewScreen> {
                   height: 16,
                 ),
                 TextFormField(
-                  controller: lastNameTEController,
+                  controller: descriptionTEController,
                   decoration: const InputDecoration(
-                    hintText: 'Last Name',
-                  ),
-                  textInputAction: TextInputAction.next,
-                  validator: Validator,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: reviewTEController,
-                  decoration: const InputDecoration(
-                    hintText: 'Write Review',
+                    hintText: 'Description',
                   ),
                   textInputAction: TextInputAction.done,
                   maxLines: 8,
@@ -79,9 +68,23 @@ class _CreatReviewScreenState extends State<CreatReviewScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async{
                       if (_formKey.currentState!.validate()) {
-                        Get.to(const ReviewsScreen());
+                        bool result= await Get.find<CreatReviewController>().postProductReview(
+                            body:{
+                              "description":descriptionTEController.text.trim(),
+                              "product_id":widget.id,
+                              "rating":ratingTEController.text.trim()
+                            }
+                        );
+                        if(result){
+                          Get.to( ReviewsScreen(productId:widget.id,));
+                        }else{
+                          Get.showSnackbar(GetSnackBar(
+                            title:'Failed',
+                            message:'Api call not successful',
+                          ));
+                        }
                       }
                     },
                     child: const Text('Submit'),

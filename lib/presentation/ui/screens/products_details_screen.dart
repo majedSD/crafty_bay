@@ -1,5 +1,6 @@
 
 import 'package:crafty_bay/data/model/product_details_data.dart';
+import 'package:crafty_bay/data/model/product_model.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/create_cart_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
@@ -118,7 +119,7 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
           const SizedBox(
             height: 8,
           ),
-          ReviewAndRatingRow(productDetailsDataList[0].product?.star ?? 0.0),
+          ReviewAndRatingRow(productDetailsDataList[0].product?.star??1),
           const SizedBox(
             height: 8,
           ),
@@ -173,7 +174,7 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
     );
   }
 
-  Row ReviewAndRatingRow(star) {
+  Row ReviewAndRatingRow(int star) {
     return Row(
       children: [
         Wrap(
@@ -185,7 +186,7 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
               color: Colors.amber,
             ),
             Text(
-              star.toStringAsPrecision(2),
+              '$star',
               style: const TextStyle(
                   fontWeight: FontWeight.w600, fontSize: 16),
             )
@@ -196,7 +197,7 @@ class _ProductsDetailsScreenState extends State<ProductsDetailsScreen> {
         ),
         TextButton(
             onPressed: () {
-              Get.to(const ReviewsScreen());
+              Get.to( ReviewsScreen(productId:widget.id??1));
             },
             child: const Text(
               'Reviews',

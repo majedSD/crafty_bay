@@ -128,7 +128,7 @@ class _CartListScreenState extends State<CartListScreen> {
         itemCount:cartList!.length,
         itemBuilder: (context, index) {
           return SizedBox(
-            height: 110,
+            height: 120,
             width: double.infinity,
             child: Card(
               elevation: 0,
